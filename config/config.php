@@ -31,7 +31,12 @@ if ($dbUrl) {
 }
 
 // Site configuration - auto-detect URL
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+// Check for Railway/Proxy HTTPS
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $protocol = 'https';
+} else {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+}
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 // For Railway or any production: detect by host or DATABASE_URL presence
