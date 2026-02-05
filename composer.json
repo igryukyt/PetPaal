@@ -1,0 +1,11 @@
+{
+    "name": "petpal/app",
+    "description": "PetPal Application",
+    "require": {
+        "php": ">=8.0",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mysqli": "*",
+        "ext-fileinfo": "*"
+    }
+}
