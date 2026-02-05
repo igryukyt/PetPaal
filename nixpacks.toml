@@ -1,0 +1,11 @@
+[nixpacks]
+providers = ["php"]
+
+[phases.setup]
+nixPkgs = ["php82", "php82Extensions.pdo_mysql", "php82Extensions.mysqli", "php82Extensions.fileinfo"]
+
+[phases.build]
+cmds = ["mkdir -p uploads/pets"]
+
+[start]
+cmd = "php -S 0.0.0.0:${PORT:-8080} -t ."
