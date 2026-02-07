@@ -218,14 +218,14 @@ try {
     if ($stmt->fetchColumn() == 0 || $force_reset) {
         $conn->exec("
             INSERT INTO hospitals (name, address, phone, email, image_url) VALUES
-            ('Crown Vet - Worli', 'Ground Floor, Atur House 87, Dr. Annie Besant Road, Worli Naka, Mumbai 400018', '+91-8062744100', 'contact@crown.vet', 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400'),
-            ('Cessna Lifeline Veterinary Hospital', 'HBCS, 148, KGA Rd, Amarjyoti Layout, Domlur, Bangalore 560071', '+91-7676365365', 'woof@cessnalifeline.com', 'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=400'),
-            ('Sanjay Gandhi Animal Care Centre', 'Raja Garden, New Delhi 110015', '+91-11-25447751', 'info@sgacc.org.in', 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=400'),
-            ('Superpets Veterinary Hospital', 'Me-Me Tower, 8th Road, Khar West, Mumbai 400052', '+91-9820012345', 'care@superpets.in', 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400'),
-            ('Jeeva Pet Hospital', '1360, 9th Cross Rd, J.P. Nagar 1st Phase, Bangalore 560078', '+91-80-26493939', 'hello@jeevapet.com', 'https://images.unsplash.com/photo-1601758124096-1fd661873b95?w=400'),
-            ('Max Petz', 'Mehar Estate, Dr E Moses Road, Mahalaxmi, Mumbai 400011', '+91-22-24934567', 'info@maxpetz.com', 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400')
+            ('Crown Vet - Worli', 'Ground Floor, Atur House 87, Dr. Annie Besant Road, Worli Naka, Mumbai 400018', '+91-8062744100', 'contact@crown.vet', 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=400'),
+            ('Cessna Lifeline Veterinary Hospital', 'HBCS, 148, KGA Rd, Amarjyoti Layout, Domlur, Bangalore 560071', '+91-7676365365', 'woof@cessnalifeline.com', 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=400'),
+            ('Sanjay Gandhi Animal Care Centre', 'Raja Garden, New Delhi 110015', '+91-11-25447751', 'info@sgacc.org.in', 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400'),
+            ('Superpets Veterinary Hospital', 'Me-Me Tower, 8th Road, Khar West, Mumbai 400052', '+91-9820012345', 'care@superpets.in', 'https://images.unsplash.com/photo-1599443015574-be5fe8a05783?w=400'),
+            ('Jeeva Pet Hospital', '1360, 9th Cross Rd, J.P. Nagar 1st Phase, Bangalore 560078', '+91-80-26493939', 'hello@jeevapet.com', 'https://images.unsplash.com/photo-1629909615184-74f495363b63?w=400'),
+            ('Max Petz', 'Mehar Estate, Dr E Moses Road, Mahalaxmi, Mumbai 400011', '+91-22-24934567', 'info@maxpetz.com', 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400')
         ");
-        echo "✓ Sample hospitals inserted (Indian locations)\\n";
+        echo "✓ Sample hospitals inserted (Indian locations)\n";
     }
 
     // Insert sample pet photos (Indian dogs)

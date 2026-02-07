@@ -50,8 +50,8 @@ require_once 'config/config.php';
                 </div>
             </div>
             <div class="hero-image">
-                <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=600&h=500&fit=crop"
-                    alt="Happy pets" loading="eager">
+                <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=600&h=500&fit=crop"
+                    alt="Happy Indian Dog" loading="eager">
             </div>
         </div>
     </section>
