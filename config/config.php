@@ -11,31 +11,35 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Database configuration - supports Railway environment variables
-$dbUrl = getenv('DATABASE_URL') ?: getenv('MYSQL_URL') ?: getenv('MYSQL_PRIVATE_URL');
+// Railway provides these when MySQL is linked: MYSQLHOST, MYSQLPORT, MYSQLDATABASE, MYSQLUSER, MYSQLPASSWORD
+$railwayHost = getenv('MYSQLHOST') ?: getenv('MYSQL_HOST');
 
-if ($dbUrl) {
-    // Railway MySQL connection - parse the URL
-    $parsed = parse_url($dbUrl);
-
-    // Handle both mysql:// and mysql2:// schemes
-    $host = $parsed['host'] ?? 'localhost';
-    $port = $parsed['port'] ?? 3306;
-    $user = $parsed['user'] ?? 'root';
-    $pass = isset($parsed['pass']) ? urldecode($parsed['pass']) : '';
-    $dbname = isset($parsed['path']) ? ltrim($parsed['path'], '/') : 'railway';
-
-    define('DB_HOST', $host);
-    define('DB_USER', $user);
-    define('DB_PASS', $pass);
-    define('DB_NAME', $dbname);
-    define('DB_PORT', $port);
+if ($railwayHost) {
+    // Railway MySQL connection using individual variables
+    define('DB_HOST', $railwayHost);
+    define('DB_PORT', getenv('MYSQLPORT') ?: getenv('MYSQL_PORT') ?: 3306);
+    define('DB_NAME', getenv('MYSQLDATABASE') ?: getenv('MYSQL_DATABASE') ?: 'railway');
+    define('DB_USER', getenv('MYSQLUSER') ?: getenv('MYSQL_USER') ?: 'root');
+    define('DB_PASS', getenv('MYSQLPASSWORD') ?: getenv('MYSQL_PASSWORD') ?: '');
 } else {
-    // Local XAMPP connection
-    define('DB_HOST', 'localhost');
-    define('DB_USER', 'root');
-    define('DB_PASS', '');
-    define('DB_NAME', 'petpal');
-    define('DB_PORT', 3306);
+    // Try DATABASE_URL or MYSQL_URL format
+    $dbUrl = getenv('DATABASE_URL') ?: getenv('MYSQL_URL') ?: getenv('MYSQL_PRIVATE_URL');
+
+    if ($dbUrl && strpos($dbUrl, '://') !== false) {
+        $parsed = parse_url($dbUrl);
+        define('DB_HOST', $parsed['host'] ?? 'localhost');
+        define('DB_PORT', $parsed['port'] ?? 3306);
+        define('DB_NAME', isset($parsed['path']) ? ltrim($parsed['path'], '/') : 'railway');
+        define('DB_USER', $parsed['user'] ?? 'root');
+        define('DB_PASS', isset($parsed['pass']) ? urldecode($parsed['pass']) : '');
+    } else {
+        // Local XAMPP connection
+        define('DB_HOST', 'localhost');
+        define('DB_USER', 'root');
+        define('DB_PASS', '');
+        define('DB_NAME', 'petpal');
+        define('DB_PORT', 3306);
+    }
 }
 
 // Site configuration - auto-detect URL
