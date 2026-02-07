@@ -140,7 +140,7 @@ require_once 'config/config.php';
                             <h4 class="product-title"><?php echo h($product['name']); ?></h4>
                             <p class="product-description"><?php echo h($product['description']); ?></p>
                             <div class="product-footer">
-                                <span class="product-price">$<?php echo number_format($product['price'], 2); ?></span>
+                                <span class="product-price">₹<?php echo number_format($product['price'], 0); ?></span>
                                 <button class="btn btn-sm btn-primary add-to-cart"
                                     data-product-id="<?php echo $product['id']; ?>">
                                     <i class="fas fa-cart-plus"></i>

@@ -220,10 +220,10 @@ $csrfToken = generateCSRFToken();
                             </p>
                         <?php endif; ?>
 
-                        <button class="btn btn-primary btn-block btn-lg" style="margin-top: 20px;" onclick="checkout()">
+                        <a href="checkout.php" class="btn btn-primary btn-block btn-lg" style="margin-top: 20px;">
                             <i class="fas fa-lock"></i>
                             Proceed to Checkout
-                        </button>
+                        </a>
 
                         <div style="margin-top: 20px; text-align: center;">
                             <p style="font-size: 0.85rem; color: var(--gray); margin-bottom: 10px;">
@@ -330,11 +330,7 @@ $csrfToken = generateCSRFToken();
             document.getElementById('total').textContent = '₹' + total;
         }
 
-        // Checkout (mock)
-        function checkout() {
-            alert('Thank you for your order! This is a demo checkout. In a production environment, this would integrate with a payment processor.');
-            // In a real app, redirect to payment page
-        }
+
     </script>
 </body>
 

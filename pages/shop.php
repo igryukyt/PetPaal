@@ -126,7 +126,7 @@ $products = $stmt->fetchAll();
                         <i class="fas fa-truck"
                             style="font-size: 2.5rem; color: var(--primary); margin-bottom: 15px;"></i>
                         <h4>Free Shipping</h4>
-                        <p style="margin: 0;">On orders over $50</p>
+                        <p style="margin: 0;">On orders over ₹2000</p>
                     </div>
                     <div class="card" style="text-align: center; padding: 30px;">
                         <i class="fas fa-undo"
