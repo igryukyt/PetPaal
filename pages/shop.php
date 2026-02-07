@@ -147,73 +147,7 @@ $products = $stmt->fetchAll();
 
     <?php include '../includes/footer.php'; ?>
 
-    <script>
-        // Add to cart functionality
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', function () {
-                const productId = this.dataset.productId;
-                const btn = this;
 
-                <?php if (!isLoggedIn()): ?>
-                    if (confirm('Please login to add items to cart. Go to login page?')) {
-                        window.location.href = '<?php echo SITE_URL; ?>/pages/login.php';
-                    }
-                    return;
-                <?php endif; ?>
-
-                // Disable button and show loading
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-                // Send AJAX request
-                fetch('<?php echo SITE_URL; ?>/api/cart-actions.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'action=add&product_id=' + productId
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Update cart count
-                            const cartCount = document.querySelector('.cart-count');
-                            if (cartCount) {
-                                cartCount.textContent = data.cart_count;
-                            } else {
-                                const cartIcon = document.querySelector('.cart-icon');
-                                const newCount = document.createElement('span');
-                                newCount.className = 'cart-count';
-                                newCount.textContent = data.cart_count;
-                                cartIcon.appendChild(newCount);
-                            }
-
-                            // Show success
-                            btn.innerHTML = '<i class="fas fa-check"></i>';
-                            btn.classList.remove('btn-primary');
-                            btn.classList.add('btn-success');
-
-                            setTimeout(() => {
-                                btn.innerHTML = '<i class="fas fa-cart-plus"></i>';
-                                btn.classList.remove('btn-success');
-                                btn.classList.add('btn-primary');
-                                btn.disabled = false;
-                            }, 1500);
-                        } else {
-                            alert(data.message || 'Error adding to cart');
-                            btn.innerHTML = '<i class="fas fa-cart-plus"></i>';
-                            btn.disabled = false;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred. Please try again.');
-                        btn.innerHTML = '<i class="fas fa-cart-plus"></i>';
-                        btn.disabled = false;
-                    });
-            });
-        });
-    </script>
 </body>
 
 </html>
