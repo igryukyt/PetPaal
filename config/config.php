@@ -13,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // Database configuration - supports Railway environment variables
 // Railway provides these when MySQL is linked: MYSQLHOST, MYSQLPORT, MYSQLDATABASE, MYSQLUSER, MYSQLPASSWORD
 $railwayHost = getenv('MYSQLHOST') ?: getenv('MYSQL_HOST');
+$isRailway = getenv('RAILWAY_ENVIRONMENT') || getenv('RAILWAY_PROJECT_ID');
 
 if ($railwayHost) {
     // Railway MySQL connection using individual variables
@@ -21,6 +22,14 @@ if ($railwayHost) {
     define('DB_NAME', getenv('MYSQLDATABASE') ?: getenv('MYSQL_DATABASE') ?: 'railway');
     define('DB_USER', getenv('MYSQLUSER') ?: getenv('MYSQL_USER') ?: 'root');
     define('DB_PASS', getenv('MYSQLPASSWORD') ?: getenv('MYSQL_PASSWORD') ?: '');
+} elseif ($isRailway) {
+    // Railway detected but no MySQL vars - try internal DNS
+    // Railway internal DNS format: servicename.railway.internal
+    define('DB_HOST', 'mysql.railway.internal');
+    define('DB_PORT', 3306);
+    define('DB_NAME', 'railway');
+    define('DB_USER', 'root');
+    define('DB_PASS', getenv('MYSQL_ROOT_PASSWORD') ?: '');
 } else {
     // Try DATABASE_URL or MYSQL_URL format
     $dbUrl = getenv('DATABASE_URL') ?: getenv('MYSQL_URL') ?: getenv('MYSQL_PRIVATE_URL');
