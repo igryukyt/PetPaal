@@ -2,9 +2,11 @@
 /**
  * PetPal - Database Setup Script
  * Run this once to initialize the database with proper password hashes
+ * Set FORCE_RESET=true to clear existing data and reload with fresh Indian data
  */
 
 $setup_enabled = getenv('ENABLE_SETUP') === 'true';
+$force_reset = getenv('FORCE_RESET') === 'true' || isset($_GET['reset']);
 $is_cli = php_sapi_name() === 'cli';
 
 if (!$setup_enabled && !$is_cli) {
@@ -18,7 +20,8 @@ echo "PetPal Database Setup\n";
 echo "=====================\n\n";
 
 // Debug: Show connection info (hide password)
-echo "DEBUG: Host=" . DB_HOST . ", Port=" . DB_PORT . ", DB=" . DB_NAME . ", User=" . DB_USER . "\n\n";
+echo "DEBUG: Host=" . DB_HOST . ", Port=" . DB_PORT . ", DB=" . DB_NAME . ", User=" . DB_USER . "\n";
+echo "FORCE_RESET: " . ($force_reset ? "YES - Will clear old data" : "NO") . "\n\n";
 
 try {
     $conn = new PDO(
@@ -146,9 +149,23 @@ try {
         echo "✓ User 'rYuk' password updated to 'Pass123'\n";
     }
 
-    // Insert sample products if empty - Indian Dog Medicines & Treatments (prices in ₹)
+    // FORCE_RESET: Clear existing data if enabled
+    if ($force_reset) {
+        echo "🔄 FORCE_RESET enabled - Clearing old data...\n";
+        $conn->exec("DELETE FROM pet_photos");
+        $conn->exec("DELETE FROM reviews");
+        $conn->exec("DELETE FROM cart");
+        $conn->exec("DELETE FROM products");
+        $conn->exec("DELETE FROM hospitals");
+        echo "✓ Old data cleared\n";
+    }
+
+    // Insert sample products - Indian Dog Medicines & Treatments (prices in ₹)
     $stmt = $conn->query("SELECT COUNT(*) FROM products");
-    if ($stmt->fetchColumn() == 0) {
+    if ($stmt->fetchColumn() == 0 || $force_reset) {
+        if ($force_reset) {
+            $conn->exec("DELETE FROM products");
+        }
         $conn->exec("
             INSERT INTO products (name, description, price, category, image_url) VALUES
             ('Drontal Plus Dewormer', 'Bayer broad-spectrum dewormer for dogs. Treats roundworms, hookworms, whipworms & tapeworms.', 450, 'food', 'https://m.media-amazon.com/images/I/61gXnLCbURL._SL1500_.jpg'),
@@ -167,9 +184,9 @@ try {
         echo "✓ Indian dog products & medicines inserted (prices in ₹)\\n";
     }
 
-    // Insert sample hospitals if empty (Indian veterinary hospitals)
+    // Insert sample hospitals (Indian veterinary hospitals)
     $stmt = $conn->query("SELECT COUNT(*) FROM hospitals");
-    if ($stmt->fetchColumn() == 0) {
+    if ($stmt->fetchColumn() == 0 || $force_reset) {
         $conn->exec("
             INSERT INTO hospitals (name, address, phone, email, image_url) VALUES
             ('Crown Vet - Worli', 'Ground Floor, Atur House 87, Dr. Annie Besant Road, Worli Naka, Mumbai 400018', '+91-8062744100', 'contact@crown.vet', 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400'),
@@ -184,7 +201,7 @@ try {
 
     // Insert sample pet photos (Indian dogs)
     $stmt = $conn->query("SELECT COUNT(*) FROM pet_photos");
-    if ($stmt->fetchColumn() == 0) {
+    if ($stmt->fetchColumn() == 0 || $force_reset) {
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->execute(['rYuk']);
         $user = $stmt->fetch();

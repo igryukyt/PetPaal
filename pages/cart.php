@@ -31,8 +31,8 @@ $subtotal = 0;
 foreach ($cartItems as $item) {
     $subtotal += $item['price'] * $item['quantity'];
 }
-$shipping = $subtotal > 50 ? 0 : 5.99;
-$tax = $subtotal * 0.08; // 8% tax
+$shipping = $subtotal > 2000 ? 0 : 99;
+$tax = $subtotal * 0.18; // 18% GST
 $total = $subtotal + $shipping + $tax;
 
 $csrfToken = generateCSRFToken();
@@ -149,9 +149,7 @@ $csrfToken = generateCSRFToken();
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>$
-                                            <?php echo number_format($item['price'], 2); ?>
-                                        </td>
+                                        <td>₹<?php echo number_format($item['price'], 0); ?></td>
                                         <td>
                                             <div class="quantity-control">
                                                 <button class="quantity-btn"
@@ -168,8 +166,7 @@ $csrfToken = generateCSRFToken();
                                             </div>
                                         </td>
                                         <td class="item-total">
-                                            $
-                                            <?php echo number_format($item['price'] * $item['quantity'], 2); ?>
+                                            ₹<?php echo number_format($item['price'] * $item['quantity'], 0); ?>
                                         </td>
                                         <td>
                                             <button class="remove-btn" onclick="removeItem(<?php echo $item['id']; ?>)"
@@ -196,37 +193,30 @@ $csrfToken = generateCSRFToken();
 
                         <div class="summary-row">
                             <span>Subtotal</span>
-                            <span id="subtotal">$
-                                <?php echo number_format($subtotal, 2); ?>
-                            </span>
+                            <span id="subtotal">₹<?php echo number_format($subtotal, 0); ?></span>
                         </div>
 
                         <div class="summary-row">
                             <span>Shipping</span>
                             <span id="shipping">
-                                <?php echo $shipping > 0 ? '$' . number_format($shipping, 2) : 'FREE'; ?>
+                                <?php echo $shipping > 0 ? '₹' . number_format($shipping, 0) : 'FREE'; ?>
                             </span>
                         </div>
 
                         <div class="summary-row">
-                            <span>Tax (8%)</span>
-                            <span id="tax">$
-                                <?php echo number_format($tax, 2); ?>
-                            </span>
+                            <span>GST (18%)</span>
+                            <span id="tax">₹<?php echo number_format($tax, 0); ?></span>
                         </div>
 
                         <div class="summary-row total">
                             <span>Total</span>
-                            <span id="total">$
-                                <?php echo number_format($total, 2); ?>
-                            </span>
+                            <span id="total">₹<?php echo number_format($total, 0); ?></span>
                         </div>
 
                         <?php if ($shipping > 0): ?>
                             <p class="form-hint" style="margin-top: 15px;">
                                 <i class="fas fa-truck"></i>
-                                Add $
-                                <?php echo number_format(50 - $subtotal, 2); ?> more for free shipping!
+                                Add ₹<?php echo number_format(2000 - $subtotal, 0); ?> more for free shipping!
                             </p>
                         <?php endif; ?>
 
@@ -334,10 +324,10 @@ $csrfToken = generateCSRFToken();
 
         // Update summary display
         function updateSummary(subtotal, shipping, tax, total) {
-            document.getElementById('subtotal').textContent = '$' + subtotal;
-            document.getElementById('shipping').textContent = shipping > 0 ? '$' + shipping : 'FREE';
-            document.getElementById('tax').textContent = '$' + tax;
-            document.getElementById('total').textContent = '$' + total;
+            document.getElementById('subtotal').textContent = '₹' + subtotal;
+            document.getElementById('shipping').textContent = shipping > 0 ? '₹' + shipping : 'FREE';
+            document.getElementById('tax').textContent = '₹' + tax;
+            document.getElementById('total').textContent = '₹' + total;
         }
 
         // Checkout (mock)

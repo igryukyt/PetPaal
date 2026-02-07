@@ -106,8 +106,7 @@ $products = $stmt->fetchAll();
                                 </p>
                                 <div class="product-footer">
                                     <span class="product-price">
-                                        $
-                                        <?php echo number_format($product['price'], 2); ?>
+                                        ₹<?php echo number_format($product['price'], 0); ?>
                                     </span>
                                     <button class="btn btn-sm btn-primary add-to-cart"
                                         data-product-id="<?php echo $product['id']; ?>" title="Add to Cart">
@@ -154,16 +153,16 @@ $products = $stmt->fetchAll();
             button.addEventListener('click', function () {
                 const productId = this.dataset.productId;
                 const btn = this;
-                
+
                 <?php if (!isLoggedIn()): ?>
-                        if (confirm('Please login to add items to cart. Go to login page?')) {
+                    if (confirm('Please login to add items to cart. Go to login page?')) {
                         window.location.href = '<?php echo SITE_URL; ?>/pages/login.php';
                     }
                     return;
                 <?php endif; ?>
 
-                    // Disable button and show loading
-                    btn.disabled = true;
+                // Disable button and show loading
+                btn.disabled = true;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
                 // Send AJAX request
