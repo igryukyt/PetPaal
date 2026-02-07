@@ -143,40 +143,40 @@ try {
         echo "✓ User 'rYuk' password updated to 'Pass123'\n";
     }
 
-    // Insert sample products if empty
+    // Insert sample products if empty (prices in Indian Rupees ₹)
     $stmt = $conn->query("SELECT COUNT(*) FROM products");
     if ($stmt->fetchColumn() == 0) {
         $conn->exec("
             INSERT INTO products (name, description, price, category, image_url) VALUES
-            ('Premium Dog Collar', 'Adjustable leather collar with gold buckle.', 29.99, 'accessories', 'https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=400'),
-            ('Cat Scratching Post', 'Multi-level scratching post with plush platforms.', 49.99, 'accessories', 'https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400'),
-            ('Pet Carrier Bag', 'Airline approved soft-sided pet carrier.', 39.99, 'accessories', 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400'),
-            ('Interactive Dog Toy', 'Smart puzzle toy that dispenses treats.', 24.99, 'accessories', 'https://images.unsplash.com/photo-1535294435445-d7249524ef2e?w=400'),
-            ('Cozy Pet Bed', 'Ultra-soft orthopedic pet bed.', 59.99, 'accessories', 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400'),
-            ('LED Pet Leash', 'Rechargeable LED light-up leash.', 19.99, 'accessories', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400'),
-            ('Premium Dog Food', 'All-natural grain-free dog food, 15lb bag.', 54.99, 'food', 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400'),
-            ('Organic Cat Food', 'Gourmet organic cat food, 10lb bag.', 44.99, 'food', 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400'),
-            ('Puppy Training Treats', 'Soft and chewy training treats.', 12.99, 'food', 'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=400'),
-            ('Dental Chew Sticks', 'Veterinarian recommended dental chews.', 18.99, 'food', 'https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?w=400'),
-            ('Kitten Milk Replacer', 'Complete nutrition formula for kittens.', 22.99, 'food', 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400'),
-            ('Senior Dog Vitamins', 'Daily multivitamin for senior dogs.', 29.99, 'food', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400')
+            ('Premium Dog Collar', 'Adjustable leather collar with gold buckle.', 1499, 'accessories', 'https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=400'),
+            ('Cat Scratching Post', 'Multi-level scratching post with plush platforms.', 2499, 'accessories', 'https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400'),
+            ('Pet Carrier Bag', 'Airline approved soft-sided pet carrier.', 1999, 'accessories', 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400'),
+            ('Interactive Dog Toy', 'Smart puzzle toy that dispenses treats.', 999, 'accessories', 'https://images.unsplash.com/photo-1535294435445-d7249524ef2e?w=400'),
+            ('Cozy Pet Bed', 'Ultra-soft orthopedic pet bed.', 2999, 'accessories', 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400'),
+            ('LED Pet Leash', 'Rechargeable LED light-up leash.', 799, 'accessories', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400'),
+            ('Premium Dog Food', 'All-natural grain-free dog food, 7kg bag.', 2799, 'food', 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400'),
+            ('Organic Cat Food', 'Gourmet organic cat food, 5kg bag.', 1899, 'food', 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400'),
+            ('Puppy Training Treats', 'Soft and chewy training treats.', 499, 'food', 'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=400'),
+            ('Dental Chew Sticks', 'Veterinarian recommended dental chews.', 699, 'food', 'https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?w=400'),
+            ('Kitten Milk Replacer', 'Complete nutrition formula for kittens.', 899, 'food', 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400'),
+            ('Senior Dog Vitamins', 'Daily multivitamin for senior dogs.', 1299, 'food', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400')
         ");
-        echo "✓ Sample products inserted\n";
+        echo "✓ Sample products inserted (prices in ₹)\\n";
     }
 
-    // Insert sample hospitals if empty
+    // Insert sample hospitals if empty (Indian veterinary hospitals)
     $stmt = $conn->query("SELECT COUNT(*) FROM hospitals");
     if ($stmt->fetchColumn() == 0) {
         $conn->exec("
             INSERT INTO hospitals (name, address, phone, email, image_url) VALUES
-            ('PetCare Animal Hospital', '123 Main Street, Downtown, NY 10001', '(555) 123-4567', 'contact@petcare.com', 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400'),
-            ('Happy Paws Veterinary Clinic', '456 Oak Avenue, Westside, NY 10002', '(555) 234-5678', 'info@happypaws.com', 'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=400'),
-            ('City Pet Emergency Center', '789 Emergency Lane, Midtown, NY 10003', '(555) 345-6789', 'emergency@citypet.com', 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=400'),
-            ('Sunshine Animal Care', '321 Sunny Road, Eastside, NY 10004', '(555) 456-7890', 'hello@sunshinecare.com', 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400'),
-            ('The Pet Wellness Center', '654 Health Boulevard, Uptown, NY 10005', '(555) 567-8901', 'wellness@petwellness.com', 'https://images.unsplash.com/photo-1601758124096-1fd661873b95?w=400'),
-            ('Furry Friends Hospital', '987 Cuddle Street, Northside, NY 10006', '(555) 678-9012', 'care@furryfriends.com', 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400')
+            ('Crown Vet - Worli', 'Ground Floor, Atur House 87, Dr. Annie Besant Road, Worli Naka, Mumbai 400018', '+91-8062744100', 'contact@crown.vet', 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400'),
+            ('Cessna Lifeline Veterinary Hospital', 'HBCS, 148, KGA Rd, Amarjyoti Layout, Domlur, Bangalore 560071', '+91-7676365365', 'woof@cessnalifeline.com', 'https://images.unsplash.com/photo-1628009368231-7bb7cfcb0def?w=400'),
+            ('Sanjay Gandhi Animal Care Centre', 'Raja Garden, New Delhi 110015', '+91-11-25447751', 'info@sgacc.org.in', 'https://images.unsplash.com/photo-1612531386530-97286d97c2d2?w=400'),
+            ('Superpets Veterinary Hospital', 'Me-Me Tower, 8th Road, Khar West, Mumbai 400052', '+91-9820012345', 'care@superpets.in', 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400'),
+            ('Jeeva Pet Hospital', '1360, 9th Cross Rd, J.P. Nagar 1st Phase, Bangalore 560078', '+91-80-26493939', 'hello@jeevapet.com', 'https://images.unsplash.com/photo-1601758124096-1fd661873b95?w=400'),
+            ('Max Petz', 'Mehar Estate, Dr E Moses Road, Mahalaxmi, Mumbai 400011', '+91-22-24934567', 'info@maxpetz.com', 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400')
         ");
-        echo "✓ Sample hospitals inserted\n";
+        echo "✓ Sample hospitals inserted (Indian locations)\\n";
     }
 
     // Insert sample pet photos
