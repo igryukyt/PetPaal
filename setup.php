@@ -146,25 +146,25 @@ try {
         echo "✓ User 'rYuk' password updated to 'Pass123'\n";
     }
 
-    // Insert sample products if empty (prices in Indian Rupees ₹)
+    // Insert sample products if empty - Indian Dog Medicines & Treatments (prices in ₹)
     $stmt = $conn->query("SELECT COUNT(*) FROM products");
     if ($stmt->fetchColumn() == 0) {
         $conn->exec("
             INSERT INTO products (name, description, price, category, image_url) VALUES
-            ('Premium Dog Collar', 'Adjustable leather collar with gold buckle.', 1499, 'accessories', 'https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?w=400'),
-            ('Cat Scratching Post', 'Multi-level scratching post with plush platforms.', 2499, 'accessories', 'https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400'),
-            ('Pet Carrier Bag', 'Airline approved soft-sided pet carrier.', 1999, 'accessories', 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400'),
-            ('Interactive Dog Toy', 'Smart puzzle toy that dispenses treats.', 999, 'accessories', 'https://images.unsplash.com/photo-1535294435445-d7249524ef2e?w=400'),
-            ('Cozy Pet Bed', 'Ultra-soft orthopedic pet bed.', 2999, 'accessories', 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400'),
-            ('LED Pet Leash', 'Rechargeable LED light-up leash.', 799, 'accessories', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400'),
-            ('Premium Dog Food', 'All-natural grain-free dog food, 7kg bag.', 2799, 'food', 'https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=400'),
-            ('Organic Cat Food', 'Gourmet organic cat food, 5kg bag.', 1899, 'food', 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400'),
-            ('Puppy Training Treats', 'Soft and chewy training treats.', 499, 'food', 'https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=400'),
-            ('Dental Chew Sticks', 'Veterinarian recommended dental chews.', 699, 'food', 'https://images.unsplash.com/photo-1601758124510-52d02ddb7cbd?w=400'),
-            ('Kitten Milk Replacer', 'Complete nutrition formula for kittens.', 899, 'food', 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400'),
-            ('Senior Dog Vitamins', 'Daily multivitamin for senior dogs.', 1299, 'food', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400')
+            ('Drontal Plus Dewormer', 'Bayer broad-spectrum dewormer for dogs. Treats roundworms, hookworms, whipworms & tapeworms.', 450, 'food', 'https://m.media-amazon.com/images/I/61gXnLCbURL._SL1500_.jpg'),
+            ('Simparica Trio', 'Monthly chewable tablet for dogs. Protection against fleas, ticks, heartworm & intestinal worms.', 899, 'food', 'https://m.media-amazon.com/images/I/71UgYN9eURL._SL1500_.jpg'),
+            ('Megavac 7 Vaccine', 'Indian Immunologicals 7-in-1 vaccine for Distemper, Hepatitis, Parvo, Parainfluenza & Leptospirosis.', 350, 'food', 'https://m.media-amazon.com/images/I/51QhDZxHURL._SL1000_.jpg'),
+            ('Kiwof Plus Tablet', 'Savavet dewormer tablet for dogs. Effective against all major intestinal worms.', 180, 'food', 'https://m.media-amazon.com/images/I/61fXnZZnURL._SL1500_.jpg'),
+            ('Fiprofort Plus Spot-On', 'Tick and flea treatment spot-on solution for dogs. 1 month protection.', 299, 'food', 'https://m.media-amazon.com/images/I/61lBnZBo7qL._SL1500_.jpg'),
+            ('Drools Optimum Performance', 'Premium Indian dog food with chicken & egg. High protein formula, 10kg bag.', 2199, 'food', 'https://m.media-amazon.com/images/I/71Q8pGan5TL._SL1500_.jpg'),
+            ('Pedigree Adult Dog Food', 'Complete & balanced nutrition for adult dogs. Chicken & vegetables, 10kg.', 1899, 'food', 'https://m.media-amazon.com/images/I/71aGsg3flhL._SL1500_.jpg'),
+            ('Himalaya Erina-EP Shampoo', 'Anti-tick & flea shampoo for dogs. Made in India with natural ingredients.', 245, 'accessories', 'https://m.media-amazon.com/images/I/61vqNXGaURL._SL1500_.jpg'),
+            ('Virbac Nutrich Supplement', 'Multivitamin & mineral supplement for dogs. Supports overall health.', 549, 'food', 'https://m.media-amazon.com/images/I/61YqZEb2URL._SL1200_.jpg'),
+            ('Adjustable Dog Collar', 'Premium quality nylon collar with quick-release buckle. Made in India.', 349, 'accessories', 'https://m.media-amazon.com/images/I/71FHb4LqURL._SL1500_.jpg'),
+            ('Stainless Steel Dog Bowl', 'Non-slip base feeding bowl. Anti-rust stainless steel, 900ml.', 299, 'accessories', 'https://m.media-amazon.com/images/I/61dfRT-1URL._SL1500_.jpg'),
+            ('Dog Leash with Padded Handle', 'Heavy duty nylon leash, 5ft length. Comfortable padded grip.', 399, 'accessories', 'https://m.media-amazon.com/images/I/71YqvbNOURL._SL1500_.jpg')
         ");
-        echo "✓ Sample products inserted (prices in ₹)\\n";
+        echo "✓ Indian dog products & medicines inserted (prices in ₹)\\n";
     }
 
     // Insert sample hospitals if empty (Indian veterinary hospitals)
@@ -182,7 +182,7 @@ try {
         echo "✓ Sample hospitals inserted (Indian locations)\\n";
     }
 
-    // Insert sample pet photos
+    // Insert sample pet photos (Indian dogs)
     $stmt = $conn->query("SELECT COUNT(*) FROM pet_photos");
     if ($stmt->fetchColumn() == 0) {
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
@@ -192,11 +192,11 @@ try {
         if ($user) {
             $stmt = $conn->prepare("
                 INSERT INTO pet_photos (user_id, pet_name, photo_url, description) VALUES
-                (?, 'Max', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400', 'My golden retriever!'),
-                (?, 'Whiskers', 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400', 'Whiskers taking a nap')
+                (?, 'Bruno', 'https://m.media-amazon.com/images/I/81cMbF3lURL._SL1500_.jpg', 'My adorable Indie dog Bruno!'),
+                (?, 'Simba', 'https://m.media-amazon.com/images/I/71KvYqBiURL._SL1500_.jpg', 'Simba the Labrador enjoying the park')
             ");
             $stmt->execute([$user['id'], $user['id']]);
-            echo "✓ Sample pet photos inserted\n";
+            echo "✓ Sample pet photos inserted (Indian dogs)\\n";
         }
     }
 
