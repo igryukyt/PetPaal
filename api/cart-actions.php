@@ -16,7 +16,16 @@ if (!isLoggedIn()) {
 
 $conn = getDBConnection();
 $userId = $_SESSION['user_id'];
+
+// Validate CSRF token for 'add' action (update and remove may come from JS without form)
+// For add from shop.php which uses main.js, we skip CSRF since it's a simple add
 $action = $_POST['action'] ?? '';
+
+// For actions that modify data significantly, validate CSRF if provided
+if (isset($_POST['csrf_token']) && !validateCSRFToken($_POST['csrf_token'])) {
+    echo json_encode(['success' => false, 'message' => 'Invalid request. Please refresh and try again.']);
+    exit;
+}
 
 switch ($action) {
     case 'add':

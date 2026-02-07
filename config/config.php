@@ -69,7 +69,10 @@ function getDBConnection()
                 ]
             );
         } catch (PDOException $e) {
-            die("Database connection failed: " . $e->getMessage());
+            // Debugging aid for deployment
+            $host = defined('DB_HOST') ? DB_HOST : 'undefined';
+            $user = defined('DB_USER') ? DB_USER : 'undefined';
+            die("Database connection failed: " . $e->getMessage() . " (Host: $host, User: $user)");
         }
     }
 

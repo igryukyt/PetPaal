@@ -23,12 +23,15 @@ $reviewQuery = "
     JOIN hospitals ON reviews.hospital_id = hospitals.id
 ";
 
+$params = [];
 if ($selectedHospitalId) {
-    $reviewQuery .= " WHERE reviews.hospital_id = " . $selectedHospitalId;
+    $reviewQuery .= " WHERE reviews.hospital_id = ?";
+    $params[] = $selectedHospitalId;
 }
 
 $reviewQuery .= " ORDER BY reviews.created_at DESC";
-$reviewsStmt = $conn->query($reviewQuery);
+$reviewsStmt = $conn->prepare($reviewQuery);
+$reviewsStmt->execute($params);
 $reviews = $reviewsStmt->fetchAll();
 
 // Calculate average rating

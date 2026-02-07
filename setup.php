@@ -4,10 +4,10 @@
  * Run this once to initialize the database with proper password hashes
  */
 
-const SETUP_ENABLED = getenv('ENABLE_SETUP') === 'true';
-const IS_CLI = php_sapi_name() === 'cli';
+$setup_enabled = getenv('ENABLE_SETUP') === 'true';
+$is_cli = php_sapi_name() === 'cli';
 
-if (!SETUP_ENABLED && !IS_CLI) {
+if (!$setup_enabled && !$is_cli) {
     http_response_code(403);
     die("Forbidden: Setup is disabled. Set ENABLE_SETUP=true env var to enable.");
 }

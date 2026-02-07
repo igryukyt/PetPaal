@@ -94,5 +94,10 @@
     </div>
 </footer>
 
+<!-- Site URL for JavaScript -->
+<script>
+    window.SITE_URL = '<?php echo SITE_URL; ?>';
+</script>
+
 <!-- Main JavaScript -->
 <script src="<?php echo SITE_URL; ?>/assets/js/main.js"></script>

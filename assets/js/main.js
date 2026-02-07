@@ -4,7 +4,7 @@
  */
 
 // DOM Ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeApp();
 });
 
@@ -14,16 +14,16 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     // Initialize cart buttons
     initCartButtons();
-    
+
     // Initialize smooth scrolling
     initSmoothScroll();
-    
+
     // Initialize form validation
     initFormValidation();
-    
+
     // Initialize animations on scroll
     initScrollAnimations();
-    
+
     // Initialize tooltips
     initTooltips();
 }
@@ -43,59 +43,59 @@ function initCartButtons() {
 function handleAddToCart(e) {
     const button = e.currentTarget;
     const productId = button.dataset.productId;
-    
+
     if (!productId) return;
-    
+
     // Check if user is logged in (this check should be done server-side too)
     // The actual login check is handled in the API
-    
+
     // Disable button
     button.disabled = true;
     const originalHTML = button.innerHTML;
     button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    
+
     // Send request
-    fetch('/PetPal/api/cart-actions.php', {
+    fetch((window.SITE_URL || '') + '/api/cart-actions.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: 'action=add&product_id=' + productId
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Update cart count
-            updateCartCount(data.cart_count);
-            
-            // Show success
-            button.innerHTML = '<i class="fas fa-check"></i>';
-            button.classList.add('btn-success');
-            
-            // Show toast notification
-            showToast('Added to cart!', 'success');
-            
-            setTimeout(() => {
-                button.innerHTML = originalHTML;
-                button.classList.remove('btn-success');
-                button.disabled = false;
-            }, 1500);
-        } else {
-            if (data.message && data.message.includes('login')) {
-                showToast('Please login to add items to cart', 'warning');
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update cart count
+                updateCartCount(data.cart_count);
+
+                // Show success
+                button.innerHTML = '<i class="fas fa-check"></i>';
+                button.classList.add('btn-success');
+
+                // Show toast notification
+                showToast('Added to cart!', 'success');
+
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('btn-success');
+                    button.disabled = false;
+                }, 1500);
             } else {
-                showToast(data.message || 'Error adding to cart', 'error');
+                if (data.message && data.message.includes('login')) {
+                    showToast('Please login to add items to cart', 'warning');
+                } else {
+                    showToast(data.message || 'Error adding to cart', 'error');
+                }
+                button.innerHTML = originalHTML;
+                button.disabled = false;
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('An error occurred', 'error');
             button.innerHTML = originalHTML;
             button.disabled = false;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showToast('An error occurred', 'error');
-        button.innerHTML = originalHTML;
-        button.disabled = false;
-    });
+        });
 }
 
 /**
@@ -104,7 +104,7 @@ function handleAddToCart(e) {
 function updateCartCount(count) {
     let cartBadge = document.querySelector('.cart-count');
     const cartIcon = document.querySelector('.cart-icon');
-    
+
     if (count > 0) {
         if (!cartBadge && cartIcon) {
             cartBadge = document.createElement('span');
@@ -125,10 +125,10 @@ function updateCartCount(count) {
  */
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const target = document.querySelector(targetId);
             if (target) {
                 e.preventDefault();
@@ -146,7 +146,7 @@ function initSmoothScroll() {
  */
 function initFormValidation() {
     document.querySelectorAll('form').forEach(form => {
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             if (!validateForm(this)) {
                 e.preventDefault();
             }
@@ -159,11 +159,11 @@ function initFormValidation() {
  */
 function validateForm(form) {
     let isValid = true;
-    
+
     // Clear previous errors
     form.querySelectorAll('.form-error').forEach(el => el.remove());
     form.querySelectorAll('.form-control.error').forEach(el => el.classList.remove('error'));
-    
+
     // Check required fields
     form.querySelectorAll('[required]').forEach(field => {
         if (!field.value.trim()) {
@@ -171,7 +171,7 @@ function validateForm(form) {
             isValid = false;
         }
     });
-    
+
     // Check email fields
     form.querySelectorAll('input[type="email"]').forEach(field => {
         if (field.value && !isValidEmail(field.value)) {
@@ -179,7 +179,7 @@ function validateForm(form) {
             isValid = false;
         }
     });
-    
+
     // Check password match
     const password = form.querySelector('input[name="password"]');
     const confirmPassword = form.querySelector('input[name="confirm_password"]');
@@ -187,7 +187,7 @@ function validateForm(form) {
         showFieldError(confirmPassword, 'Passwords do not match');
         isValid = false;
     }
-    
+
     return isValid;
 }
 
@@ -223,7 +223,7 @@ function initScrollAnimations() {
         },
         { threshold: 0.1 }
     );
-    
+
     // Observe cards and sections
     document.querySelectorAll('.card, .product-card, .hospital-card, .tip-card, .section-title').forEach(el => {
         el.classList.add('animate-ready');
@@ -248,20 +248,20 @@ function showTooltip(e) {
     const el = e.currentTarget;
     const text = el.getAttribute('title');
     if (!text) return;
-    
+
     // Store and remove title to prevent default tooltip
     el.dataset.tooltip = text;
     el.removeAttribute('title');
-    
+
     const tooltip = document.createElement('div');
     tooltip.className = 'custom-tooltip';
     tooltip.textContent = text;
     document.body.appendChild(tooltip);
-    
+
     const rect = el.getBoundingClientRect();
     tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
     tooltip.style.top = rect.top - tooltip.offsetHeight - 8 + window.scrollY + 'px';
-    
+
     setTimeout(() => tooltip.classList.add('visible'), 10);
 }
 
@@ -270,13 +270,13 @@ function showTooltip(e) {
  */
 function hideTooltip(e) {
     const el = e.currentTarget;
-    
+
     // Restore title
     if (el.dataset.tooltip) {
         el.setAttribute('title', el.dataset.tooltip);
         delete el.dataset.tooltip;
     }
-    
+
     document.querySelectorAll('.custom-tooltip').forEach(t => t.remove());
 }
 
@@ -286,27 +286,27 @@ function hideTooltip(e) {
 function showToast(message, type = 'info') {
     // Remove existing toasts
     document.querySelectorAll('.toast').forEach(t => t.remove());
-    
+
     const toast = document.createElement('div');
     toast.className = 'toast toast-' + type;
-    
+
     const icons = {
         success: 'fa-check-circle',
         error: 'fa-exclamation-circle',
         warning: 'fa-exclamation-triangle',
         info: 'fa-info-circle'
     };
-    
+
     toast.innerHTML = `
         <i class="fas ${icons[type] || icons.info}"></i>
         <span>${message}</span>
     `;
-    
+
     document.body.appendChild(toast);
-    
+
     // Trigger animation
     setTimeout(() => toast.classList.add('visible'), 10);
-    
+
     // Auto-remove
     setTimeout(() => {
         toast.classList.remove('visible');

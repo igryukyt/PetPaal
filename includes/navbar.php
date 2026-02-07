@@ -10,11 +10,16 @@ $currentPage = basename($_SERVER['PHP_SELF'], '.php');
 // Get cart count if user is logged in
 $cartCount = 0;
 if (isLoggedIn()) {
-    $conn = getDBConnection();
-    $stmt = $conn->prepare("SELECT SUM(quantity) as count FROM cart WHERE user_id = ?");
-    $stmt->execute([$_SESSION['user_id']]);
-    $result = $stmt->fetch();
-    $cartCount = $result['count'] ?? 0;
+    try {
+        $conn = getDBConnection();
+        $stmt = $conn->prepare("SELECT SUM(quantity) as count FROM cart WHERE user_id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        $result = $stmt->fetch();
+        $cartCount = $result['count'] ?? 0;
+    } catch (Exception $e) {
+        // Silently fail - cart count will show 0
+        $cartCount = 0;
+    }
 }
 ?>
 
