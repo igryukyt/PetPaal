@@ -11,16 +11,24 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Database configuration - supports Railway environment variables
-$dbUrl = getenv('DATABASE_URL') ?: getenv('MYSQL_URL');
+$dbUrl = getenv('DATABASE_URL') ?: getenv('MYSQL_URL') ?: getenv('MYSQL_PRIVATE_URL');
 
 if ($dbUrl) {
-    // Railway MySQL connection
+    // Railway MySQL connection - parse the URL
     $parsed = parse_url($dbUrl);
-    define('DB_HOST', $parsed['host']);
-    define('DB_USER', $parsed['user']);
-    define('DB_PASS', $parsed['pass']);
-    define('DB_NAME', ltrim($parsed['path'], '/'));
-    define('DB_PORT', $parsed['port'] ?? 3306);
+
+    // Handle both mysql:// and mysql2:// schemes
+    $host = $parsed['host'] ?? 'localhost';
+    $port = $parsed['port'] ?? 3306;
+    $user = $parsed['user'] ?? 'root';
+    $pass = isset($parsed['pass']) ? urldecode($parsed['pass']) : '';
+    $dbname = isset($parsed['path']) ? ltrim($parsed['path'], '/') : 'railway';
+
+    define('DB_HOST', $host);
+    define('DB_USER', $user);
+    define('DB_PASS', $pass);
+    define('DB_NAME', $dbname);
+    define('DB_PORT', $port);
 } else {
     // Local XAMPP connection
     define('DB_HOST', 'localhost');

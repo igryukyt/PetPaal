@@ -17,6 +17,9 @@ require_once 'config/config.php';
 echo "PetPal Database Setup\n";
 echo "=====================\n\n";
 
+// Debug: Show connection info (hide password)
+echo "DEBUG: Host=" . DB_HOST . ", Port=" . DB_PORT . ", DB=" . DB_NAME . ", User=" . DB_USER . "\n\n";
+
 try {
     $conn = new PDO(
         "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";charset=utf8mb4",
