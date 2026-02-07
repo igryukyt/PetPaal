@@ -102,6 +102,33 @@ try {
     ");
 
     $conn->exec("
+        CREATE TABLE IF NOT EXISTS orders (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            order_number VARCHAR(20) NOT NULL UNIQUE,
+            total_amount DECIMAL(10,2) NOT NULL,
+            status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
+            payment_method VARCHAR(50),
+            shipping_address TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        )
+    ");
+
+    $conn->exec("
+        CREATE TABLE IF NOT EXISTS order_items (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            order_id INT NOT NULL,
+            product_id INT NOT NULL,
+            quantity INT NOT NULL,
+            price DECIMAL(10,2) NOT NULL,
+            FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+            FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+        )
+    ");
+
+
+    $conn->exec("
         CREATE TABLE IF NOT EXISTS pet_photos (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
@@ -154,6 +181,8 @@ try {
         echo "🔄 FORCE_RESET enabled - Clearing old data...\n";
         $conn->exec("DELETE FROM pet_photos");
         $conn->exec("DELETE FROM reviews");
+        $conn->exec("DELETE FROM order_items");
+        $conn->exec("DELETE FROM orders");
         $conn->exec("DELETE FROM cart");
         $conn->exec("DELETE FROM products");
         $conn->exec("DELETE FROM hospitals");
